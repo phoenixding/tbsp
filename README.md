@@ -1,4 +1,4 @@
-<img align="left" src="./images/icon.jpg"> TBSP: <span style="color:red"> <u>T</u> </span>rajectory Inference <span style="color:red"> <u>B</u> </span>ased on <span style="color:red"><u>S</u></span>N<span style="color:red"><u>P</u></span> information.  
+<img align="left" src="./images/icon.jpg"> TBSP: **T**rajectory Inference **B**ased on **S**N**P** information.  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)    
 
 
