@@ -27,10 +27,10 @@ instructions.
 -- scikit-learn   
 -- scipy  
 -- numpy  
--- matplotlib  
--- networkx 
--- pyBigWig
--- Biopython
+-- matplotlib    
+-- networkx   
+-- pyBigWig  
+-- Biopython  
 
 The python setup.py script (or pip) will try to install these packages automatically.
 However, please install them manually if, by any reason, the automatic 
