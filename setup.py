@@ -1,0 +1,19 @@
+from setuptools import setup
+
+setup(  name='tbsp',
+		version='1.0.0',
+		description='SNP-based trajectory inference',
+		author='Jun Ding',
+		author_email='jund@andrew.cmu.edu',
+		url="https://github.com/phoenixding/tbsn",
+		license='MIT',
+		packages=['tbsp'],
+		entry_points={'console_scripts':['tbsp=tbsp.tbsp:main']},
+		install_requires=['scipy','numpy','scikit-learn','matplotlib','networkx','Biopython','pyBigWig'],
+		classifiers=[
+			'License :: OSI Approved :: MIT License',
+			'Programming Language :: Python :: 2',
+			'Programming Language :: Python :: 3',
+		],
+		)
+		
