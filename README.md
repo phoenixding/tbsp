@@ -36,6 +36,10 @@ The python setup.py script (or pip) will try to install these packages automatic
 However, please install them manually if, by any reason, the automatic 
 installation fails. 
 
+
+* Platform:  
+Macos and Linux verified. For windows, the dependent pyBigWig package is not available. 
+
 # INSTALLATION
  
  There are 3 options to install scdiff.  
@@ -72,7 +76,7 @@ installation fails.
 
 
 
-The above pip installation options should be working for Linux, Window and MacOS systems.   
+The above pip installation options should be working for Linux and MacOS systems.   
 For MacOS users, it's recommended to use python3 installation. The default python2 in MacOS has
 some compatibility issues with a few dependent libraries. The users would have to install their own
 version of python2 (e.g. via [Anocanda](https://anaconda.org/)) if they prefer to use python2 in MacOS.  
