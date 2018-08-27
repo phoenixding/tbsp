@@ -6,10 +6,10 @@ class BioList(list):
                     self=[[str(item) for item in k] for k in self]
                     self=["\t".join(item) for item in self]
                 out=[str(item) for item in self]
-		out='\n'.join(out)
-		f=open(outname,'w')
-		f.write(out)
-		f.close()
+                out='\n'.join(out)
+                f=open(outname,'w')
+                f.write(out)
+                f.close()
 		
 		
 class bed:

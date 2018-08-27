@@ -49,18 +49,18 @@ def buildMutationMatrix(dcell2snp,keptMutations):
 def buildGroups(matrixPreds,matrixCells,matrixValues,dsra2type):
     groups=[]
     for i in set(matrixPreds):
-	ci=[]
-	di=[]
-	for j in range(len(matrixPreds)):
+        ci=[]
+        di=[]
+        for j in range(len(matrixPreds)):
             if i==matrixPreds[j]:
                 ci.append(matrixCells[j])
                 di.append(matrixValues[j])
         if len(dsra2type)>0:
-	    ti=[dsra2type[item] for item in ci]
-	    gi=Group(ci,ti,di)
+            ti=[dsra2type[item] for item in ci]
+            gi=Group(ci,ti,di)
         else:
             gi=Group(ci,None,di)
-	groups.append(gi)
+        groups.append(gi)
     return groups
 
 # build the distance for building phylogenetic tree
@@ -501,7 +501,7 @@ def main():
     
     loopcut=0.001  # stop the iteration if the improvement is less than this cutoff
     for l in range(Loop):
-	print("loop:%s"%(l))
+        print("loop:%s"%(l))
         updatedMuts=updateMutList(dcell2snp,keptMutations,dsra2type,dfsnp)
         [ugroups,uss]=performClustering(dcell2snp,updatedMuts,dsra2type)
         if (uss>ss):
