@@ -116,7 +116,8 @@ def drawTree(net,outstr,outputdir):
     #Xlabels={net.nodes.keys()[k]:net.nodes.keys()[k].name.split("|")[0] for k in range(len(net.nodes))}
     Xlabels={}
     for k in range(len(net.nodes)):
-        Xlabels[net.nodes.keys()[k]]=net.nodes.keys()[k].name.split("|")[0]
+        nkeys=list(net.nodes,keys())
+        Xlabels[nkeys[k]]=nkeys[k].name.split("|")[0]
         
     XlabelTexts=[item.name.split("|") for item in Xlabels]
     XlabelTexts=[item[-1] if len(item)>1 else "" for item in XlabelTexts]
@@ -124,14 +125,12 @@ def drawTree(net,outstr,outputdir):
    
     datgraph=[]
     for i in range(len(pos.values())):
-        [x,y]=pos.values()[i]
+        [x,y]=list(pos.values())[i]
         datgraph.append([XlabelTexts[i],(x,y)])
         plt.text(x-0.003*len(XlabelTexts[i]),y+0.03,s=XlabelTexts[i],fontsize=5)
     plt.subplots_adjust(right=0.5)
     plt.savefig("%s/%s.jpg"%(outputdir,outstr),bbox_inches="tight",dpi=600)
     BioList(datgraph).ex2File("%s/%s.dat"%(outputdir,outstr))
-
-
 
 # check whether new feature signature list is better than the old one, if yes -> update the feature list
 def evalChange(xold,eNew,dfsnp,icells,ccells):
