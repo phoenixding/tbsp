@@ -116,7 +116,7 @@ def drawTree(net,outstr,outputdir):
     #Xlabels={net.nodes.keys()[k]:net.nodes.keys()[k].name.split("|")[0] for k in range(len(net.nodes))}
     Xlabels={}
     for k in range(len(net.nodes)):
-        nkeys=list(net.nodes,keys())
+        nkeys=list(net.nodes.keys())
         Xlabels[nkeys[k]]=nkeys[k].name.split("|")[0]
         
     XlabelTexts=[item.name.split("|") for item in Xlabels]
@@ -485,7 +485,7 @@ def main():
     #============================================================================
     [dfsnp,dcell2snp,umuts,keptMutations,dsnp2reads]=getcell2snp(dsnp,cutl,cuth,cells,dbw)
     
-    Loop=2
+    Loop=10
     ssList=[]
     
     
