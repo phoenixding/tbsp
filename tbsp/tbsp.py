@@ -113,12 +113,15 @@ def distanceij(gi,gj):
 
 def drawTree(net,outstr,outputdir):
     pos=networkx.spring_layout(net)
-    Xlabels={net.nodes.keys()[k]:net.nodes.keys()[k].name.split("|")[0] for k in range(len(net.nodes))}
+    #Xlabels={net.nodes.keys()[k]:net.nodes.keys()[k].name.split("|")[0] for k in range(len(net.nodes))}
+    Xlabels={}
+    for k in range(len(net.nodes)):
+        Xlabels[net.nodes.keys()[k]]=net.nodes.keys()[k].name.split("|")[0]
+        
     XlabelTexts=[item.name.split("|") for item in Xlabels]
     XlabelTexts=[item[-1] if len(item)>1 else "" for item in XlabelTexts]
     networkx.draw(net,pos,labels=Xlabels,with_labels=True)
    
-    #pdb.set_trace()
     datgraph=[]
     for i in range(len(pos.values())):
         [x,y]=pos.values()[i]
