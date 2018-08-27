@@ -129,7 +129,7 @@ def drawTree(net,outstr,outputdir):
         datgraph.append([XlabelTexts[i],(x,y)])
         plt.text(x-0.003*len(XlabelTexts[i]),y+0.03,s=XlabelTexts[i],fontsize=5)
     plt.subplots_adjust(right=0.5)
-    plt.savefig("%s/%s.jpg"%(outputdir,outstr),bbox_inches="tight",dpi=600)
+    plt.savefig("%s/%s.png"%(outputdir,outstr),bbox_inches="tight",dpi=600)
     BioList(datgraph).ex2File("%s/%s.dat"%(outputdir,outstr))
 
 # check whether new feature signature list is better than the old one, if yes -> update the feature list
@@ -400,7 +400,7 @@ def exportSNP(dfsnp,groups,keptMutations,outputdir):
     plt.ylabel("SNPs")
     plt.xlabel("Clusters")
     
-    plt.savefig("%s/SNP_matrix.jpg"%(outputdir),dpi=600)
+    plt.savefig("%s/SNP_matrix.png"%(outputdir),dpi=600)
     
     
     mutmatout=[]
