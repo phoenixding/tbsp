@@ -32,6 +32,17 @@ instructions.
 -- pyBigWig  
 -- Biopython  
 
+
+* other dependencies:   
+-- python-dev (python2) or python3-dev (python3)  
+It can be installed easily for most linux distributions. For example, debian/ubuntu:
+```
+sudo apt-get install python-dev
+or 
+sudo apt-get install python3-dev
+```
+For Macos, it was installed by default. 
+
 The python setup.py script (or pip) will try to install these packages automatically.
 However, please install them manually if, by any reason, the automatic 
 installation fails. 
