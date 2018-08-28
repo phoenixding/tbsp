@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!!usr/bin/env python
 import pdb,sys,os
 from File import *
 from BioUtils import BioList
@@ -121,14 +121,15 @@ def drawTree(net,outstr,outputdir):
         Xlabels[nkeys[k]]=nkeys[k].name.split("|")[0]
         
     XlabelTexts=[item.name.split("|") for item in Xlabels]
-    XlabelTexts=[item[-1] if len(item)>1 else item[0] for item in XlabelTexts]
+    Xnames=[item[0] for item in XlabelTexts]
+    XlabelTexts=[item[-1] if len(item)>1 else "" for item in XlabelTexts]
     networkx.draw(net,pos,labels=Xlabels,with_labels=True)
    
     datgraph=[]
     for i in range(len(pos.values())):
         [x,y]=list(pos.values())[i]
-        datgraph.append([XlabelTexts[i],(x,y)])
-        plt.text(x-0.003*len(XlabelTexts[i]),y+0.03,s=XlabelTexts[i],fontsize=5)
+        datgraph.append([Xnames[i],(x,y)])
+        plt.text(x-0.003*len(XlabelTexts[i]),y+0.05,s=XlabelTexts[i],fontsize=5)
     plt.subplots_adjust(right=0.5)
     plt.savefig("%s/%s.png"%(outputdir,outstr),bbox_inches="tight",dpi=600)
     BioList(datgraph).ex2File("%s/%s.dat"%(outputdir,outstr))
@@ -318,10 +319,10 @@ def isExpressing(i,icells,dbw,w=50,rcut=8,pcut=0.8):
     [ichr,ipos]=i.split(",")
     istart=max(0,int(ipos)-w/2)
     iend=int(ipos)+w/2
-
+    
     rcells=[]
     for icell in icells:
-        ri=dbw[icell].stats(ichr,istart,iend)[0]
+        ri=dbw[icell].stats(ichr,int(istart),int(iend))[0]
         rcells.append(ri)
 
     rfcells=[item for item in rcells if item>rcut]
@@ -341,23 +342,23 @@ def isUsefulMutation(i,dsnp,cutl,cuth,allcells):
 
 # perform clustering
 def performClustering(dcell2snp,keptMutations,dsra2type,k=7):
+    k=7 if k==None else k
     matrix=buildMutationMatrix(dcell2snp,keptMutations)
     matrixCells=[item[0] for item in matrix]
     matrixValues=[[float(j) for j in item[1:]] for item in matrix]
     kk=KMeans(n_clusters=k,random_state=0)
     matrixPreds=kk.fit_predict(matrixValues)
-    #pdb.set_trace()
     groups=buildGroups(matrixPreds,matrixCells,matrixValues,dsra2type)
     ss=silhouette_score(matrixValues,matrixPreds,random_state=0)  # silhouette score
     return [groups,ss]
 
 # update mutation list by using the keptMutations and randomly choosing other mutations
-def updateMutList(dcell2snp,keptMutations,dsra2type,dfsnp):
+def updateMutList(dcell2snp,keptMutations,dsra2type,dfsnp,k):
     unchosenMut=[item for item in dfsnp if item not in keptMutations]
     rs=[]
     for m in unchosenMut:
         updatedMuts=keptMutations+[m]
-        [ug,us]=performClustering(dcell2snp,updatedMuts,dsra2type)
+        [ug,us]=performClustering(dcell2snp,updatedMuts,dsra2type,k)
         rs.append([us,updatedMuts])
     rs=sorted(rs,reverse=True)
     updatedMuts=rs[0][1]
@@ -414,22 +415,68 @@ def exportSNP(dfsnp,groups,keptMutations,outputdir):
 
     BioList(mutmatout).ex2File("%s/SNP_matrix.tsv"%(outputdir))
     
-    #pdb.set_trace()
-#==============================================================
-# main program starts here
 
+def bestK(dcell2snp,keptMutations,dsra2type):
+    matrix=buildMutationMatrix(dcell2snp,keptMutations)
+    matrixCells=[item[0] for item in matrix]
+    matrixValues=[[float(j) for j in item[1:]] for item in matrix]
+    ssl=[]
+    K=range(2,11)
+    for k in K: 
+        kk=KMeans(n_clusters=k,random_state=0)
+        matrixPreds=kk.fit_predict(matrixValues)
+        groups=buildGroups(matrixPreds,matrixCells,matrixValues,dsra2type)
+        ss=silhouette_score(matrixValues,matrixPreds,random_state=0)  # silhouette score
+        ssl.append(ss)
+    ssl=[item/sum(ssl) for item in ssl]
+    pks=detPeak(K,ssl,0.05,type='max')
+    pks=[item for item in pks if item>2]
+    k=pks[0] if len(pks)>0 else None
+    return k
+
+def detPeak(K,A,deltaP,type='max'):
+    LM=[]
+    LX=[]
+    if len(A)==0:
+        return []
+    minA=min(0,min(A))
+    for i in range(len(A)-1):
+        delta=deltaP* (A[i]-minA)
+        if i==0:
+            ad=A[i+1]-A[i]
+            if ad > delta:
+                LM.append(i)
+            if ad<=1*delta:
+                LX.append(i)
+        else:
+            pd=A[i]-A[i-1]
+            ad=A[i+1]-A[i]
+            if (pd>delta) and (ad <-0.25* delta):
+                LX.append(i)
+            if (pd<-1* delta) and (ad > 0.25*delta):
+                LM.append(i)
+    if type=='min':
+        LM=sorted(LM,key=lambda x: A[x])
+        return [K[item] for item in LM]
+    LX=sorted(LX,key=lambda x: A[x], reverse=True)
+    
+
+    return [K[item] for item in LX]
+
+# main program starts here
 def main():
-	
     # parse the arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-i","--ivcf",help="Required,directory with all input .vcf files. This specifies the directory of SNP files (.vcf) for the cells (one .vcf file for each cell). These .vcf files can be obtained using the \
             provided bam2vcf script or other RNA-seq variant calling pipelines preferred by the users.",required=True)
     parser.add_argument("-b","--ibw",help="Optional,directory with all input bigwig (.bw) files with the information about the number of aligned reads at each genomic position. These bigwig files are used to filter the SNPs, \
             which are redundant to expression information.",nargs="?")
+    parser.add_argument("-k","--kcluster",help="Optional, number of clusters, Integer. If not specified, the program will choose the k with best silhouette score.", default='auto')
     parser.add_argument("-l","--cell_label", help="Optional, labels for the cells. This is used only to annotate the cells with known information, not used for building the model.",nargs="?")
     parser.add_argument("-o","--output",help="Required,output directory",required=True)
     parser.add_argument("--cutl",help="Optional, lower bound cutoff to remove potential false positive SNPs, default=0.1",default=0.1)
     parser.add_argument("--cuth",help="Optional, upper bound cutoff to remove baseline SNPs, which are common in most cells, default=0.8",default=0.8)
+    parser.add_argument("--cutc",help="Optional, convergence cutoff, a smaller cutoff represents a stricter convergence criterion,default=0.001",default=0.001)
     
     args=parser.parse_args()
 	
@@ -439,7 +486,9 @@ def main():
     outputdir=args.output
     cutl=args.cutl
     cuth=args.cuth
-
+    loopcut=float(args.cutc)
+    k=args.kcluster
+    
     #--------------------------------------------
     if os.path.exists(outputdir)==False:
         os.mkdir(outputdir)
@@ -461,7 +510,6 @@ def main():
                 dsnp[key].append(i.split(".")[0])
         ct+=1
         print("cell:%s"%(ct))
-
 
     # read in bw files
     dbw={}
@@ -485,37 +533,48 @@ def main():
     
     #============================================================================
     [dfsnp,dcell2snp,umuts,keptMutations,dsnp2reads]=getcell2snp(dsnp,cutl,cuth,cells,dbw)
-    
+   
+    #---------------------------------------------
+    if k=='auto':
+        k=bestK(dcell2snp,keptMutations,dsra2type)
+    else:
+        try:
+            k=int(k)
+        except:
+            print("please check your -k parameter")
+            sys.exit(0)
+    #--------------------------------------------
+
+    #pdb.set_trace()
+
     Loop=10
     ssList=[]
-    
-    
+     
     #FIXME: update the main function
     print('clustering...')
     
     # initial clustering...
-    [groups,ss]=performClustering(dcell2snp,umuts,dsra2type)
+    [groups,ss]=performClustering(dcell2snp,umuts,dsra2type,k)
     ssList.append(ss)
 
     # find informative snps based on current groups
     keptMutations=getGroupSignatureMutation(groups,cells,dfsnp)
-    [groups,ss]=performClustering(dcell2snp,keptMutations,dsra2type)
+    [groups,ss]=performClustering(dcell2snp,keptMutations,dsra2type,k)
     ssList.append(ss)
     
-    loopcut=0.001  # stop the iteration if the improvement is less than this cutoff
     for l in range(Loop):
         print("loop:%s"%(l))
-        updatedMuts=updateMutList(dcell2snp,keptMutations,dsra2type,dfsnp)
-        [ugroups,uss]=performClustering(dcell2snp,updatedMuts,dsra2type)
+        updatedMuts=updateMutList(dcell2snp,keptMutations,dsra2type,dfsnp,k)
+        [ugroups,uss]=performClustering(dcell2snp,updatedMuts,dsra2type,k)
         if (uss>ss):
             keptMutations=updatedMuts
-            [groups,ss]=performClustering(dcell2snp,keptMutations,dsra2type)
+            [groups,ss]=performClustering(dcell2snp,keptMutations,dsra2type,k)
 
         if abs(ss-ssList[-1])<loopcut:
             ssList.append(ss) 
             break
         ssList.append(ss)
-
+    #pdb.set_trace()
     dm=buildPhyloDM(groups)
     ptree=buildPhylogenicTree(dm)
     net=Bio.Phylo.to_networkx(ptree)
@@ -524,7 +583,6 @@ def main():
     # exporting snps and snp reads
     exportSNP(dfsnp,groups,keptMutations,outputdir)
     exportGroupCells(groups,outputdir)
-    #pdb.set_trace()
 
 if __name__=="__main__":
     main()

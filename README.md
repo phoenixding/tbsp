@@ -95,8 +95,8 @@ version of python2 (e.g. via [Anocanda](https://anaconda.org/)) if they prefer t
 # USAGE
 
 ```shell
-usage: tbsp [-h] -i IVCF [-b [IBW]] [-l [CELL_LABEL]] -o OUTPUT [--cutl CUTL]
-            [--cuth CUTH]
+usage: tbsp.py [-h] -i IVCF [-b [IBW]] [-k KCLUSTER] [-l [CELL_LABEL]] -o
+               OUTPUT [--cutl CUTL] [--cuth CUTH] [--cutc CUTC]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -116,15 +116,22 @@ optional arguments:
                         Optional, labels for the cells. This is used only to
                         annotate the cells with known information, not used
                         for building the model.
+  -k KCLUSTER, --kcluster KCLUSTER
+                        Optional, number of clusters, Integer. If not
+                        specified, the program will choose the k with best
+                        silhouette score.
   -o OUTPUT, --output OUTPUT
                         Required,output directory
   --cutl CUTL           Optional, lower bound cutoff to remove potential false
-                        positive SNPs,default=0.1
+                        positive SNPs, default=0.1
   --cuth CUTH           Optional, upper bound cutoff to remove baseline SNPs,
                         which are common in most cells, default=0.8
-
-                        
+  --cutc CUTC           Optional, convergence cutoff, a smaller cutoff
+                        represents a stricter convergence
+                        criterion,default=0.001
+                                             
 ```
+
 # INPUTS AND PRE-PROCESSINGS
 
 
@@ -144,6 +151,7 @@ cell1	label1
 cell2	label2
 ```
 These cell labels are only used to annotate the cells in the trajectory.
+The other optional parameters are specified above.
 
 # OUTPUTS
 
