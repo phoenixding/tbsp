@@ -120,7 +120,7 @@ def drawTree(net,outstr,outputdir):
         Xlabels[nkeys[k]]=nkeys[k].name.split("|")[0]
         
     XlabelTexts=[item.name.split("|") for item in Xlabels]
-    XlabelTexts=[item[-1] if len(item)>1 else "" for item in XlabelTexts]
+    XlabelTexts=[item[-1] if len(item)>1 else item[0] for item in XlabelTexts]
     networkx.draw(net,pos,labels=Xlabels,with_labels=True)
    
     datgraph=[]
