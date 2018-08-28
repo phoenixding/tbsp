@@ -13,6 +13,7 @@ import random
 from BioUtils import BioList
 import pyBigWig as pybw
 import argparse
+from functools import reduce
 
 class Group:
     def __init__(self,cells,types=None,features=None):
