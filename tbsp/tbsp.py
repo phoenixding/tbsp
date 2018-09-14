@@ -484,8 +484,8 @@ def main():
     bwfolder=args.ibw
     sralabelfile=args.cell_label
     outputdir=args.output
-    cutl=args.cutl
-    cuth=args.cuth
+    cutl=float(args.cutl)
+    cuth=float(args.cuth)
     loopcut=float(args.cutc)
     k=args.kcluster
     
