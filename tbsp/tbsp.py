@@ -4,6 +4,8 @@ from File import *
 from BioUtils import BioList
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+import matplotlib as mpl
+mpl.use("Agg")
 import matplotlib.pyplot as plt
 import networkx
 import Bio.Phylo
