@@ -486,6 +486,7 @@ def main():
     outputdir=args.output
     cutl=float(args.cutl)
     cuth=float(args.cuth)
+    #loop cut 
     loopcut=float(args.cutc)
     k=args.kcluster
     
