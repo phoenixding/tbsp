@@ -366,12 +366,13 @@ def updateMutList(dcell2snp,keptMutations,dsra2type,dfsnp,k):
     updatedMuts=rs[0][1]
     return updatedMuts
 
-def exportGroupCells(groups,outputdir):
+def exportGroupCells(groups,outputdir,dsra2type):
     out=[]
     for i in range(len(groups)):
         icells=groups[i].cells
         for j in icells:
-            out.append([j,"cluter:%s"%(i)])
+            ki=[j,"cluster:%s"%(i)] if j not in dsra2type else [j,"cluster:%s"%(i),dsra2type[j]]
+            out.append(ki)
     BioList(out).ex2File("%s/GroupCells.txt"%(outputdir))
 
 
@@ -585,7 +586,7 @@ def main():
     
     # exporting snps and snp reads
     exportSNP(dfsnp,groups,keptMutations,outputdir)
-    exportGroupCells(groups,outputdir)
+    exportGroupCells(groups,outputdir,dsra2type)
 
 if __name__=="__main__":
     main()
