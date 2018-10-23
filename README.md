@@ -144,7 +144,7 @@ Optional input, this specifies the directory of all bigwig (.bw) files. We provi
 used to filter SNPs, potentially redundant to expression. 
 
 * __-l__:  
-Optional input, this species the labels for the cells. 
+Optional input, this specifies the labels for the cells. 
 File format (tab-delimited):  
 ```
 cell1	label1
