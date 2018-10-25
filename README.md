@@ -95,7 +95,7 @@ version of python2 (e.g. via [Anocanda](https://anaconda.org/)) if they prefer t
 # USAGE
 
 ```shell
-usage: tbsp.py [-h] -i IVCF [-b [IBW]] [-k KCLUSTER] [-l [CELL_LABEL]] -o
+usage: tbsp [-h] -i IVCF [-b [IBW]] [-k KCLUSTER] [-l [CELL_LABEL]] -o
                OUTPUT [--cutl CUTL] [--cuth CUTH] [--cutc CUTC]
 
 optional arguments:
