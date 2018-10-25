@@ -78,11 +78,11 @@ Macos and Linux verified. For windows, the dependent pyBigWig package is not ava
 
 	python 2:  
 	```shell
-	$sudo pip install --upgrade https://github.com/phoenixding/tbsp/zipball/master
+	$sudo pip install  --trusted-host github.com --upgrade http://github.com/phoenixding/tbsp/zipball/master
 	```
 	python 3: 
 	```shell
-	$sudo pip3 install --upgrade https://github.com/phoenixding/tbsp/zipball/master
+	$sudo pip3 install --trusted-host github.com --upgrade http://github.com/phoenixding/tbsp/zipball/master
 	```
 
 
