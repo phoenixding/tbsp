@@ -9,7 +9,7 @@ setup(  name='tbsp',
 		license='MIT',
 		packages=['tbsp'],
 		entry_points={'console_scripts':['tbsp=tbsp.tbsp:main']},
-		install_requires=['scipy','numpy','scikit-learn','matplotlib>=2.2.3','networkx>=2.2','Biopython>=1.72','pyBigWig>=0.3.12'],
+		install_requires=['scipy','numpy','scikit-learn','matplotlib>=2.2.3','networkx>=2.2','Biopython>=1.72','pyBigWig'],
 		classifiers=[
 			'License :: OSI Approved :: MIT License',
 			'Programming Language :: Python :: 2',
