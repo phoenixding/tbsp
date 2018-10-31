@@ -264,12 +264,12 @@ def getcell2snp(dsnp,cutl,cuth,cells,dbw):
     return [dfsnp,dcell2snp,umuts,keptMutations,dsnp2reads]
 
 # get the signature mutation list for each of the groups
-def getGroupSignatureMutation(groups,allcells,dfsnp):
+def getGroupSignatureMutation(groups,allcells,dfsnp,pcut=0.05):
     selmuts=[]
     for g in groups:
         icells=g.cells
         ccells=[item for item in allcells if item not in icells]
-        mk=findMutationMarker(icells,ccells,dfsnp)
+        mk=findMutationMarker(icells,ccells,dfsnp,pcut)
         g.mk=mk
         for i in mk:
             imk=i[1:]
@@ -494,6 +494,7 @@ def main():
         cuth=float(args.cuth)
         loopcut=float(args.cutc)
         Loop=float(args.maxiter)
+        gcut=float(args.greedycut)
     except:
         print("please check your input! Only float numbers are allowed for cutoffs")
         sys.exit(0)
@@ -568,7 +569,7 @@ def main():
     ssList.append(ss)
 
     # find informative snps based on current groups
-    keptMutations=getGroupSignatureMutation(groups,cells,dfsnp)
+    keptMutations=getGroupSignatureMutation(groups,cells,dfsnp,pcut=gcut)
     [groups,ss]=performClustering(dcell2snp,keptMutations,dsra2type,k)
     ssList.append(ss)
     
