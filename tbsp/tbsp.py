@@ -157,7 +157,7 @@ def evalUpdateMut(updatedMutations):
 
 
 # use greedy algorithm to find the best mutation makers for given cells (compared with a group of controll cells)
-def findMutationMarker(icells,ccells,dfsnp,pcut=0.95):
+def findMutationMarker(icells,ccells,dfsnp,pcut):
     iMutations={}
     cMutations={}
     for i in dfsnp:
@@ -264,7 +264,7 @@ def getcell2snp(dsnp,cutl,cuth,cells,dbw):
     return [dfsnp,dcell2snp,umuts,keptMutations,dsnp2reads]
 
 # get the signature mutation list for each of the groups
-def getGroupSignatureMutation(groups,allcells,dfsnp,pcut=0.05):
+def getGroupSignatureMutation(groups,allcells,dfsnp,pcut):
     selmuts=[]
     for g in groups:
         icells=g.cells
@@ -494,7 +494,7 @@ def main():
         cuth=float(args.cuth)
         loopcut=float(args.cutc)
         Loop=float(args.maxiter)
-        gcut=float(args.greedycut)
+        gcut=1-float(args.greedycut)
     except:
         print("please check your input! Only float numbers are allowed for cutoffs")
         sys.exit(0)
@@ -569,7 +569,7 @@ def main():
     ssList.append(ss)
 
     # find informative snps based on current groups
-    keptMutations=getGroupSignatureMutation(groups,cells,dfsnp,pcut=gcut)
+    keptMutations=getGroupSignatureMutation(groups,cells,dfsnp,gcut)
     [groups,ss]=performClustering(dcell2snp,keptMutations,dsra2type,k)
     ssList.append(ss)
     
