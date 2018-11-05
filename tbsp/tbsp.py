@@ -479,7 +479,7 @@ def main():
     parser.add_argument("-o","--output",help="Required,output directory",required=True)
     parser.add_argument("--cutl",help="Optional, lower bound cutoff to remove potential false positive SNPs, default=0.1",default=0.1)
     parser.add_argument("--cuth",help="Optional, upper bound cutoff to remove baseline SNPs, which are common in most cells, default=0.8",default=0.8)
-    parser.add_argument("--greedycut",help="Optional, the stopping cutoff for the greedy search of candidate SNPs, default=0.05 (less than 0.05 score improvement). A smaller cutoff means less strict SNP candidate search", default=0.05)
+    parser.add_argument("--greedycut",help="Optional, the stopping cutoff for the greedy search of candidate SNPs, default=0.05 (less than 0.05 score improvement). A larger cutoff means less strict SNP candidate search", default=0.05)
     parser.add_argument("--cutc",help="Optional, convergence cutoff, a smaller cutoff represents a stricter convergence criterion,default=0.001",default=0.001)
     parser.add_argument("--maxiter",help="Optional, the maximal number of iterations allowed",default=10)
     

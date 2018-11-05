@@ -130,7 +130,7 @@ optional arguments:
   --greedycut GREEDYCUT
                         Optional, the stopping cutoff for the greedy search of
                         candidate SNPs, default=0.05 (less than 0.05 score
-                        improvement). A smaller cutoff means less strict SNP
+                        improvement). A larger cutoff means less strict SNP
                         candidate search
   --cutc CUTC           Optional, convergence cutoff, a smaller cutoff
                         represents a stricter convergence
