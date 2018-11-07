@@ -112,7 +112,7 @@ However, the Docker version of TBSP is available for all platforms.
 	To run tbsp image :
 	
 	```
-	$sudo docker run -v johnding1986/tbsp /PATH_TO_FILES:/tbsp 
+	$sudo docker run -v /PATH_TO_FILE_DIRECTORY:/tbsp  johnding1986/tbsp 
 	```
 	Users would need to use the -v command to mount local directories. 
 	
