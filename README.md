@@ -41,20 +41,20 @@ sudo apt-get install python-dev
 or 
 sudo apt-get install python3-dev
 ```
-For Macos, it was installed by default. 
-
-The python setup.py script (or pip) will try to install these packages automatically.
-However, please install them manually if, by any reason, the automatic 
-installation fails. 
+	For Macos, it was installed by default. 
+	The python setup.py script (or pip) will try to install these packages automatically.
+	However, please install them manually if, by any reason, the automatic 
+	installation fails. 
 
 
 * Platform:  
-Macos and Linux verified. For windows, the dependent pyBigWig package is not available. 
+Macos and Linux verified. For windows, the dependent pyBigWig package is not available.   
+However, the Docker version of TBSP is available for all platforms.  
 
 # INSTALLATION
  
- There are 3 options to install scdiff.  
-* __Option 1: Install from download directory__   
+ There are 3 options to install tbsp.  
+* __Option 1: setup.py script installation from download directory__   
 	cd to the downloaded scdiff package root directory
 
 	```shell
@@ -74,7 +74,7 @@ Macos and Linux verified. For windows, the dependent pyBigWig package is not ava
 	```
 	use python3 instead of python in the above commands to install if using python3. 
 	
-* __Option 2: Install from Github__:    
+* __Option 2: pip installation from Github__:    
 
 	python 2:  
 	```shell
@@ -84,14 +84,39 @@ Macos and Linux verified. For windows, the dependent pyBigWig package is not ava
 	```shell
 	$sudo pip3 install --trusted-host github.com --upgrade http://github.com/phoenixding/tbsp/zipball/master
 	```
-
-
-
-The above pip installation options should be working for Linux and MacOS systems.   
-For MacOS users, it's recommended to use python3 installation. The default python2 in MacOS has
-some compatibility issues with a few dependent libraries. The users would have to install their own
-version of python2 (e.g. via [Anocanda](https://anaconda.org/)) if they prefer to use python2 in MacOS.  
-
+	
+* __Option 3: pip installation from PyPI__:   
+	
+	python 2:  
+	```shell
+	$sudo pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade tbsp
+	```
+	python 3: 
+	```shell
+	$sudo pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade tbsp
+	```
+	
+	The above pip installation options should be working for Linux and MacOS systems.   
+	For MacOS users, it's recommended to use python3 installation. The default python2 in MacOS has
+	some compatibility issues with a few dependent libraries. The users would have to install their own
+	version of python2 (e.g. via [Anocanda](https://anaconda.org/)) if they prefer to use python2 in MacOS.    
+	
+* __Option 4: Installation as Docker images__ (Most robust way, no dependencies on all platforms)  
+	Users would need to install Docker to run the tbsp image. Please refer to [Docker installation page](https://docs.docker.com/install/) for detailed installation instructions. 
+	
+	To install tbsp image:    
+	
+	```
+	$sudo docker pull johnding1986/tbsp 
+	```
+	To run tbsp image :
+	
+	```
+	$sudo docker run -v johnding1986/tbsp /PATH_TO_FILES:/tbsp 
+	```
+	Users would need to use the -v command to mount local directories. 
+	
+	
 # USAGE
 
 ```shell
@@ -185,7 +210,43 @@ A text file, which describes the cells in each cluster.
 The SNP matrix for all the cells. 
 Row: SNPs
 Column: Cells
-Value: Binary (0/1), which indicates whther the SNP is included in the cell. 
+Value: Binary (0/1), which indicates whther the SNP is included in the cell.
+ 
+	```
+	SNP	SRR1931024	SRR1930999	SRR1930977	SRR1931041	SRR1931012	SRR1930945	SRR1931003	SRR1931002	SRR1931004	SRR1931009	SRR1931031	SRR1930994	SRR1930995	SRR1930992
+	chr18,31438715	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr13,99421798	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr18,48047497	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr1,98777608	0	1	1	1	0	1	1	0	0	0	0	0	1	0
+	chr12,75631154	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr2,80837890	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr10,56497362	1	0	0	1	0	1	1	0	1	1	0	0	1	0
+	chr9,42254324	0	0	0	0	0	0	0	0	0	0	1	0	1	0
+	chr10,56497777	0	0	0	0	0	0	1	1	0	1	0	0	0	1
+	chr9,42254361	0	0	0	0	0	0	0	0	0	0	1	0	1	0
+	chr18,28188943	0	1	1	1	1	1	1	1	0	0	1	1	0	1
+	chr14,46775753	1	0	0	1	0	1	0	1	0	1	1	0	1	1
+	chr4,141015053	0	0	0	1	0	0	0	0	0	0	0	0	0	0
+	chr6,3201327	0	0	1	0	0	0	1	1	1	0	0	0	0	0
+	chr2,152737258	0	1	0	0	1	0	1	1	0	1	1	0	1	0
+	chr4,150417174	1	0	0	0	1	0	1	0	1	0	0	1	0	0
+	chr6,136872487	0	1	1	1	0	0	1	1	0	0	1	0	0	0
+	chr8,41341106	1	1	1	0	1	1	1	1	1	0	1	1	0	1
+	chr17,72849135	1	1	1	1	0	0	1	1	1	1	1	1	1	1
+	chr17,6132279	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr8,102864840	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	chr13,74406968	1	1	1	1	0	1	1	1	1	1	1	0	1	1
+	chr11,45829261	0	1	1	0	0	1	1	0	0	1	0	0	0	0
+	chr8,54522180	0	1	1	0	0	1	0	0	0	0	0	0	0	0
+	chr9,67023057	0	1	1	0	1	1	0	1	0	0	1	1	1	1
+	chr10,128076602	1	1	1	1	1	0	1	1	1	1	1	1	1	1
+	chr6,4540674	0	1	1	1	1	1	1	0	1	1	1	0	1	1
+	chr17,70996716	1	1	1	1	0	1	1	1	1	1	1	1	1	1
+	chr5,115345677	0	1	1	1	1	1	0	1	0	0	0	1	1	1
+	chr2,136782052	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+
+	```
+
 
 * __SNP_matrix.jpg__:   
 The SNP matrix in jpg image. 
@@ -214,17 +275,28 @@ Graph representation of Trajectory.dat
 ![ti](./images/Trajectory.jpg)
 
 # EXAMPLES
+* __Direct Run__:  
+	* __Example inputs__:  
+	We provided example vcf files under [examples](./examples/vcf_example) folder. 
+	To run tbsp on the example data:
+	```
+	$tbsp -i examples/vcf_example -o example_out
+	```
 
-* __Example inputs__:  
-We provided example vcf files under [examples](./examples/vcf_example) folder. 
-To run tbsp on the example data:
-```
-$tbsp -i examples/vcf_example -o example_out
-```
+	* __Example outputs__:  
+	Example output files can be found under [examples](./examples/output_example) folder.
 
-* __Example outputs__:  
-Example output files can be found under [examples](./examples/output_example) folder.
-
+* __Docker Run__:  
+* __Docker Run__:  
+	We provided example vcf files under [examples](./examples/vcf_example) folder. 
+	To run docker tbsp on the example data:
+	
+	```
+	$sudo docker run -v ~/Download/examples:/tbsp  johnding1986/tbsp -i /tbsp/vcf_example -o /tbsp/example_out 
+	```
+	where ~/Download/examples  should be replaced by the parent directory of the folder of vcf files.  The result files 
+	are the same as described above.  
+	
 # CREDITS
  
 This software was developed by ZIV-system biology group @ Carnegie Mellon University.  

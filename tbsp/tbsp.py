@@ -405,7 +405,7 @@ def exportSNP(dfsnp,groups,keptMutations,outputdir):
     plt.ylabel("SNPs")
     plt.xlabel("Clusters")
     
-    plt.savefig("%s/SNP_matrix.png"%(outputdir),dpi=600)
+    plt.savefig("%s/SNP_matrix.pdf"%(outputdir),dpi=600)
     
     
     mutmatout=[]
