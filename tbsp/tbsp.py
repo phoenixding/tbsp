@@ -1,5 +1,7 @@
 #!!usr/bin/env python
 import pdb,sys,os
+import warnings
+warnings.filterwarnings("ignore")
 from File import *
 from BioUtils import BioList
 from sklearn.cluster import KMeans
