@@ -53,7 +53,7 @@ However, the Docker version of TBSP is available for all platforms.
 
 # INSTALLATION
  
- There are 3 options to install tbsp.  
+ There are 4 options to install tbsp.  
 * __Option 1: setup.py script installation from download directory__   
 	cd to the downloaded scdiff package root directory
 
