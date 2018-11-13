@@ -1,6 +1,16 @@
 <img align="left" src="./images/icon.jpg"> TBSP: **T**rajectory Inference **B**ased on **S**N**P** information.  
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)    
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)      
 
+
+# Table of Contents
+1. [INTRODUCTION](#introduction)
+2. [PREREQUISITES](#prerequisites)
+3. [INSTALLATION](#installation)
+4. [USAGE](#usage)
+5. [INPUTS AND PRE-PROCESSINGS](#inputs-and-pre-processings)
+6. [OUTPUTS](#outputs)
+7. [EXAMPLES](#examples)
+8. [INTEGRATION WITH EXISTING METHODS](#integration-with-existing-methods)
 
 
 # INTRODUCTION 
@@ -273,6 +283,58 @@ The SNP matrix in jpg image.
 * __Trajectory.jpg__:     
 Graph representation of Trajectory.dat 
 ![ti](./images/Trajectory.jpg)
+
+# INTEGRATION WITH EXISTING METHODS  
+TBSP model provides a SNP MATRIX, which presents the SNP signature vector for each of the cells in the dataset.
+As we show in the paper, such SNP MATRIX is very informative for trajectory inference.
+The cell trajectories can be improved by integrating SNP matrix with expression data. 
+
+There are many ways to utilize the SNP matrix information, here we used a simple example to demonstrate the integration.  
+
+MONOCLE 2 is used widely for trajectory inference and has very good performance.  However, it's based on only single-cell expression 
+data and thus may be limited in many scenarios.  
+
+For example, the following is the Monocle 2 results on a 2016 neuron reprogramming single-cell dataset (https://www.ncbi.nlm.nih.gov/pubmed/27281220)
+![images/monocle_neuron.jpg](images/monocle_neuron.jpg). The processed expression data can be found in the [integration_example](integration_example/neuron_original.tsv) directory. 
+
+(1) In the above results, we observe that d2_induced cells are in a separate branch in the bottom right while the neuron cells are on the branch at top right,
+which contradicts the findings in the original study (Trajectory: MEF->d2_intermediate-> d2_induced-> d5_intermeidate-> d5_earlyiN->Neuron), in which the d2_induced cells are serving as the progenitors to the neuron cells.  
+(2) Running TBSP on the same dataset, we have obtained 36 SNPs as shown in [integration_example/SNP_matrix.tsv](integration_example/SNP_matrix.tsv).  
+(3) Combine the expression features and SNP features.  There are multiple ways to combine these two types of information. 
+In the paper, we have discussed the strategy of refining the cell assignment in the expression-based trajectories using SNP information. 
+To be more specific, we integrate the SNP information to re-calculate the likelihood when re-assigning the cells to the trajectories. 
+Here, we discuss the most naive way to integrate SNP features with expression features: Merge the  features directly. 
+For each cell, we put together the expression features (gene expression levels associated with cell) and SNP features (Binary SNP features 0/1 associated with the cell). 
+
+```
+expression:
+cell	gene1	gene2	gene3 ...
+c1	1.6	2.4	3.8 ...
+c2	2.8	4.8	6.4	...
+
++snp:
+SNP snp1	snp2	snp3
+c1	1	0	1	...
+c2	0	1	0	...
+
+=>combined:
+combined_info	gene1	gene2	gene3	snp1	snp2	snp3	...
+c1	1.6	2.4	3.8	1	0	1	...
+c2	2.8	4.8	6.5	0	1	0	...
+
+```
+
+Please note that number of the SNP features (usually in the range of 30-100) is much smaller than the number of genes (expression features).
+Therefore, to put more weights on the SNP features, we need to over-sample the SNP features.  In the above example, we oversampled the SNPs for 100 times (=> 3600 SNP features). 
+The combined dataset for the above example can be found in the [integration_example](integration_example/neuron_combined.tsv) directory. 
+ 
+
+(4) Run Monocle on the SNP-integrated dataset. 
+![images/monocle_snp.jpg](images/monocle_snp.jpg)
+
+The above SNP-integrated Monocle results on the neuron reprogramming dataset perfectly matches the findings in the original study (MEF->d2_intermediate-> d2_induced-> d5_intermeidate-> d5_earlyiN->Neuron).
+d2_induced cells nows are the progenitors of the neuron cells. Also, d5 cells are coming later than d2 cells. 
+Even using very simple integration strategy as shown above, the cell trajectories can be significantly improved. 
 
 # EXAMPLES
 * __Direct Run__:  
