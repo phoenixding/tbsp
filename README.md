@@ -313,7 +313,7 @@ c1	1.6	2.4	3.8 ...
 c2	2.8	4.8	6.4	...
 
 +snp:
-SNP snp1	snp2	snp3
+cell snp1	snp2	snp3
 c1	1	0	1	...
 c2	0	1	0	...
 
@@ -348,7 +348,6 @@ Even using very simple integration strategy as shown above, the cell trajectorie
 	* __Example outputs__:  
 	Example output files can be found under [examples](./examples/output_example) folder.
 
-* __Docker Run__:  
 * __Docker Run__:  
 	We provided example vcf files under [examples](./examples/vcf_example) folder. 
 	To run docker tbsp on the example data:
