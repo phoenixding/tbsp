@@ -117,7 +117,7 @@ def distanceij(gi,gj):
 
 
 def drawTree(net,outstr,outputdir):
-    pos=networkx.spring_layout(net)
+    pos=networkx.spring_layout(net,seed=0)
     #Xlabels={net.nodes.keys()[k]:net.nodes.keys()[k].name.split("|")[0] for k in range(len(net.nodes))}
     Xlabels={}
     for k in range(len(net.nodes)):
