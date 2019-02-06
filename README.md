@@ -178,7 +178,11 @@ optional arguments:
 
 * __-i__:    
 Required input, this specifies the directory of all SNP(.vcf) files. We recommend using [GATK RNA-seq variant calling pipeline](https://software.broadinstitute.org/gatk/documentation/article.php?id=3891) to call the vcfs from .bam (mapped reads) files. 
-Users are also allowed to use the SNPs (.vcfs) identified by programs of their preferences.  
+Users are also allowed to use the SNPs (.vcfs) identified by programs of their preferences (e.g. freebayes).  
+We also provied a GATK based SNP calling script (bam2vcf.py) at [bam2vcf](https://my.pcloud.com/publink/show?code=XZsOrK7Z73GL0GzatDf1VGxYimgQXH0cmC0V), which automates the SNP calling procedure from .bam files to .vcf files. 
+Please use "python bam2vcf.py --help" to see the script usage. 
+
+
 
 * __-b__:  
 Optional input, this specifies the directory of all bigwig (.bw) files. We provided the script [bam2bw.py](./bam2bw/bam2bw.py) under [bam2bw](./bam2bw) directory to convert the bam files to bigwig files. This files are
