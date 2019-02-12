@@ -282,7 +282,12 @@ The SNP matrix in jpg image.
 	```
 	First column: cluster id  
 	second column: coordinates  
-
+	TBSP trajectories were presented in the form of uprooted phylogenetic tree structure.
+	The coordinates for each node(cluster) are given by the above Trajectory.dat result. 
+	With the coordinates, users can able to compute the length for each of the branches in the tree.
+	User can setup a user-defined distance cutoff to find out major divergence events. An example cutoff can be set 
+	as top 25% of all branch lengths.  
+	
 * __Trajectory.jpg__:     
 Graph representation of Trajectory.dat 
 ![ti](./images/Trajectory.jpg)
