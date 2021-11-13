@@ -43,6 +43,7 @@ instructions.
 -- pyBigWig  
 -- Biopython  
 -- decorator
+
 Note that networkx might not work well with some versions of decorator. In that case, consider upgrading or downgrading decorator. For example, "pip install decorator==5.0.7" should solve the problem. 
 
 * other dependencies:   
