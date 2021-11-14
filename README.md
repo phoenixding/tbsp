@@ -33,6 +33,7 @@ It was installed by default for most Linux distribution and MAC.
 If not, please check [https://www.python.org/downloads/](https://www.python.org/downloads/) for installation 
 instructions. 
 
+
 * Python packages dependencies:  
 -- scikit-learn   
 -- scipy  
@@ -41,7 +42,9 @@ instructions.
 -- networkx   
 -- pyBigWig  
 -- Biopython  
+-- decorator
 
+Note that networkx might not work well with some versions of decorator. In that case, consider upgrading or downgrading decorator. For example, "pip install decorator==5.0.7" should solve the problem. 
 
 * other dependencies:   
 -- python-dev (python2) or python3-dev (python3)  
